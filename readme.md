@@ -480,7 +480,104 @@ geosite:google,geosite:openai,geosite:netflix
 | `geosite:openai` | `warp-socks` | ChatGPT работает без блокировок |
 | `geosite:netflix` | `warp-socks` | Netflix не видит датацентр |
 | `geosite:category-ads` | `blocked` | Блокировка рекламы на уровне VPN |
-| `geoip:ru` | `direct` | Российские сайты идут напрямую, без VPN |
+
+> **Важно:** Правила в разделе 11 — это серверные правила (в 3X-UI). Они определяют, через что сервер отправляет трафик дальше в интернет. Трафик при этом всё равно проходит через VPN-туннель от клиента до сервера. Чтобы определённые сайты шли **мимо VPN-туннеля** напрямую через провайдера — настройка делается на клиенте (раздел 12).
+
+---
+
+## 12. Обход VPN для российских сервисов (настройка клиента)
+
+### Зачем
+
+Многие российские сервисы (Госуслуги, банки, Яндекс, VK, Ozon и др.) блокируют или ограничивают доступ с зарубежных IP. Если весь трафик идёт через VPN-сервер в Амстердаме — эти сервисы могут работать некорректно или вообще не пускать.
+
+Решение — настроить VPN-клиент так, чтобы трафик к российским ресурсам шёл **напрямую через провайдера**, минуя VPN-туннель. Остальной трафик по-прежнему идёт через VPN.
+
+```
+Трафик к google.com  → через VPN-туннель → сервер → интернет
+Трафик к gosuslugi.ru → напрямую, мимо VPN → интернет
+```
+
+### Hiddify
+
+1. Открыть приложение
+2. Зайти в **Настройки** → **Config Options** → **Routing**
+3. В разделе маршрутизации выставить:
+   - **Bypass Domestic** (обход внутренних) → если есть такой переключатель, включить
+   - Или в **Remote Domain Strategy** выбрать режим, который пропускает локальный трафик
+4. Если есть раздел **Custom Rules** / **Direct Domains**:
+   - Добавить: `geosite:category-ru`
+5. Если есть **Direct IPs**:
+   - Добавить: `geoip:ru`
+
+### v2rayN (Windows)
+
+1. Открыть v2rayN
+2. **Настройки** → **Routing Setting** → **Advanced Function**
+3. Добавить правило:
+
+```json
+{
+  "outboundTag": "direct",
+  "domain": ["geosite:category-ru"]
+}
+```
+
+И правило по IP:
+
+```json
+{
+  "outboundTag": "direct",
+  "ip": ["geoip:ru"]
+}
+```
+
+4. Убедиться что правило `direct` стоит выше правил прокси для совпадающих доменов
+
+### v2rayNG (Android)
+
+1. Открыть v2rayNG
+2. Нажать три точки → **Settings** → **Routing**
+3. Выбрать **Bypass mainland** или **Custom**
+4. В кастомных правилах добавить:
+   - **Direct Domain**: `geosite:category-ru`
+   - **Direct IP**: `geoip:ru`
+
+### Ручной способ (любой клиент)
+
+Если нет `geosite:category-ru`, можно вручную добавить домены в список прямых подключений:
+
+```
+domain:gosuslugi.ru
+domain:mos.ru
+domain:nalog.ru
+domain:sberbank.ru
+domain:tinkoff.ru
+domain:vtb.ru
+domain:gazprombank.ru
+domain:alfabank.ru
+domain:yandex.ru
+domain:ya.ru
+domain:vk.com
+domain:vk.ru
+domain:mail.ru
+domain:ozon.ru
+domain:wildberries.ru
+domain:avito.ru
+domain:ria.ru
+domain:rt.ru
+domain:2gis.ru
+domain:cdek.ru
+domain:pochta.ru
+```
+
+### Как проверить
+
+1. Включить VPN
+2. Открыть [whatismyip.com](https://whatismyip.com) → IP должен быть амстердамским (VPN работает)
+3. Открыть [2ip.ru](https://2ip.ru) → IP должен быть **российским** (bypass работает)
+
+Если оба условия выполнены — настройка верная: зарубежные сайты идут через VPN, российские — напрямую.
 
 ---
 
