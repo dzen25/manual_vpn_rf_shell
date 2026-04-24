@@ -69,12 +69,13 @@
 1. Подключитесь к зарубежному серверу по SSH от имени root:  
    ssh root@\<IP\_ВАШЕГО\_СЕРВЕРА\>
 
-2. Скачайте и запустите скрипт:  
-   wget \-O exit\_node.sh \[https://raw.githubusercontent.com/ВАШ\_ЮЗЕР/ВАШ\_РЕПОЗИТОРИЙ/main/exit\_node.sh\](https://raw.githubusercontent.com/ВАШ\_ЮЗЕР/ВАШ\_РЕПОЗИТОРИЙ/main/exit\_node.sh)  
-   chmod \+x exit\_node.sh  
-   bash exit\_node.sh
-
-3. **Что произойдёт дальше:**  
+2. Скачайте и запустите скрипт:
+   ```
+   wget -O exit_node.sh https://raw.githubusercontent.com/dzen25/manual_vpn_rf_shell/refs/heads/main/exit_node.sh
+   chmod +x exit_node.sh  
+   bash exit_node.sh
+   ```
+4. **Что произойдёт дальше:**  
    * Скрипт спросит домен. Если у вас есть домен, направленный на этот IP, введите его (начнется получение SSL). Если нет — просто нажмите Enter (установка пойдёт без полноценного сайта, но VPN будет работать).  
    * По завершении скрипт выдаст данные от панели управления и **готовую ссылку vless://**.  
    * **Обязательно сохраните эту ссылку\!**
@@ -89,10 +90,11 @@
    ssh root@\<IP\_МОСКОВСКОГО\_СЕРВЕРА\>
 
 2. Скачайте и запустите скрипт:  
-   wget \-O bridge\_node.sh \[https://raw.githubusercontent.com/ВАШ\_ЮЗЕР/ВАШ\_РЕПОЗИТОРИЙ/main/bridge\_node.sh\](https://raw.githubusercontent.com/ВАШ\_ЮЗЕР/ВАШ\_РЕПОЗИТОРИЙ/main/bridge\_node.sh)  
-   chmod \+x bridge\_node.sh  
-   bash bridge\_node.sh
-
+   ```
+   wget -O bridge_node.sh https://raw.githubusercontent.com/dzen25/manual_vpn_rf_shell/refs/heads/main/bridge_node.sh
+   chmod +x bridge_node.sh
+   bash bridge_node.sh
+   ```
 3. **Что произойдёт дальше:**  
    * Скрипт попросит вставить **ссылку vless://**, которую вы получили в Части 1 (с Exit-ноды).  
    * Затем спросит домен для маскировки (аналогично первому шагу).  
@@ -133,11 +135,5 @@
 1. Проверьте, что вы используете полный путь панели с http:// (или https://, если указывали домен).  
 2. Обязательно добавьте случайно сгенерированный путь в конце (например: http://123.45.67.89:45678/aBcdEfGh/).  
 3. Без слэша / на конце пути панель может не открыться.
-
-## **🔍 Услуги по развёртыванию**
-
-Не хотите настраивать сами или нет времени разбираться с серверами? Мы развернем и настроим VPN-сервер за вас — под ключ, с проверкой и инструкцией по подключению.
-
-📩 **Telegram:** [@itzmelkiy\_pm](https://t.me/itzmelkiy_pm)
 
 *By ITzMELKIY & dzen25*
